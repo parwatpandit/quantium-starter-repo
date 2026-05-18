@@ -9,13 +9,13 @@ df3 = pd.read_csv("data/daily_sales_data_2.csv")
 df = pd.concat([df1, df2, df3])
 df_pink=(df[df["product"]=="pink morsel"])
 
-if not os.path.exists("pink_morsel.csv"):
-    df_pink.to_csv("pink_morsel.csv", index=False)
-df_pink.to_csv("pink_morsel.csv", index=False)
+if not os.path.exists("data/pink_morsel.csv"):
+    df_pink.to_csv("data/pink_morsel.csv", index=False)
+df_pink.to_csv("data/pink_morsel.csv", index=False)
 
 
 # reading pink_morsel.csv file 
-pink_morsel=pd.read_csv("pink_morsel.csv")
+pink_morsel=pd.read_csv("data/pink_morsel.csv")
 
 pink_morsel["price"] = pink_morsel["price"].str.replace("$", "").astype(float)
 # print(pink_morsel["price"])
@@ -42,5 +42,5 @@ output = pd.DataFrame({
     "date": ["before 15th Jan 2021", "after 15th Jan 2021"]
 })
 
-output.to_csv("output.csv", index=False)
+output.to_csv("data/output.csv", index=False)
 print(output)
