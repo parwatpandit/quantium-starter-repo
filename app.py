@@ -14,6 +14,9 @@ if not os.path.exists("pink_morsel.csv"):
 df_pink.to_csv("pink_morsel.csv", index=False)
 
 
-# # Step 5 - Save to new CSV
-# df.to_csv("result.csv",index=False)
-# print("Done!")
+# reading pink_morsel.csv file 
+pink_morsel=pd.read_csv("pink_morsel.csv")
+
+pink_morsel["price"] = pink_morsel["price"].str.replace("$", "").astype(float)
+
+print(pink_morsel["price"])
