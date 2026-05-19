@@ -1,14 +1,15 @@
 import pandas as pd
 import os
-# Step 1 - Read all 3 CSV files
+# reading all the csv file provided
 df1 = pd.read_csv("data/daily_sales_data_0.csv")
 df2 = pd.read_csv("data/daily_sales_data_1.csv")
 df3 = pd.read_csv("data/daily_sales_data_2.csv")
 
-
+# only taking product with name 'pink morsel'
 df = pd.concat([df1, df2, df3])
 df_pink=(df[df["product"]=="pink morsel"])
 
+# if exist do nothing
 if not os.path.exists("data/pink_morsel.csv"):
     df_pink.to_csv("data/pink_morsel.csv", index=False)
 df_pink.to_csv("data/pink_morsel.csv", index=False)
@@ -26,14 +27,16 @@ pink_morsel["sales"] = pink_morsel["price"] * pink_morsel["quantity"]
 print("total Sales:", pink_morsel["sales"].sum())
 
 
-
-# spliting the salsed before and after 15th Jand 2021
-
 before = pink_morsel[pink_morsel["date"] < "2021-01-15"]
 after = pink_morsel[pink_morsel["date"] >= "2021-01-15"]
+# spliting the sales before and after 15th Jand 2021
+def SalesBeforeAfter():
+    return{
+        "Before:", before["sales"].sum(),
+        "After:", after["sales"].sum()
+    }
 
-print("Before:", before["sales"].sum())
-print("After:", after["sales"].sum())
+SalesBeforeAfter()
 
 
 # outpus the before and after now
