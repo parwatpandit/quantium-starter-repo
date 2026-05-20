@@ -1,9 +1,12 @@
+import dash
+from dash import html, dcc
 import pandas as pd
 import os
 # reading all the csv file provided
 df1 = pd.read_csv("data/daily_sales_data_0.csv")
 df2 = pd.read_csv("data/daily_sales_data_1.csv")
 df3 = pd.read_csv("data/daily_sales_data_2.csv")
+
 
 # only taking product with name 'pink morsel'
 df = pd.concat([df1, df2, df3])
@@ -49,5 +52,37 @@ print(output)
 # task 2 output fogmat displaying in a new file
 filtered_df = pink_morsel[["sales", "date", "region"]]
 filtered_df.to_csv("data/task_2.csv", index=False)
+
+
+# reading task_2.csv for dash_app
+dash_df = pd.read_csv("data/task_2.csv")
+app = dash.Dash(__name__)
+
+
+# header of the dash app
+# and line chart
+app.layout = html.Div([
+    html.H1("Pink Morsel Sales Visualiser"),
+    dcc.Graph(
+        id="sales-chart",
+        figure={
+            "data": [
+                {
+                    "x": dash_df["date"],
+                    "y": dash_df["sales"],
+                    "type": "line"
+                }
+            ],
+            "layout": {
+                "title": "Sales Over Time",
+                "xaxis": {"title": "Date"},
+                "yaxis": {"title": "Sales ($)"}
+            }
+        }
+    )
+])
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
