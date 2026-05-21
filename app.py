@@ -2,6 +2,8 @@ import dash
 from dash import html, dcc
 import pandas as pd
 import os
+from dash import Input, Output
+
 # reading all the csv file provided
 df1 = pd.read_csv("data/daily_sales_data_0.csv")
 df2 = pd.read_csv("data/daily_sales_data_1.csv")
@@ -59,30 +61,52 @@ dash_df = pd.read_csv("data/task_2.csv")
 app = dash.Dash(__name__)
 
 
+## tempurort 
+print(dash_df["region"].unique())
+
 # header of the dash app
-# and line chart
+# and line chart and updating to add a new radio button according to task 3
 app.layout = html.Div([
     html.H1("Pink Morsel Sales Visualiser"),
-    dcc.Graph(
-        id="sales-chart",
-        figure={
-            "data": [
-                {
-                    "x": dash_df["date"],
-                    "y": dash_df["sales"],
-                    "type": "line"
-                }
-            ],
-            "layout": {
-                "title": "Sales Over Time",
-                "xaxis": {"title": "Date"},
-                "yaxis": {"title": "Sales ($)"}
-            }
-        }
-    )
+    dcc.RadioItems(
+        id="region-filter",
+        options=[
+            {"label": "All", "value": "all"},
+            {"label": "North", "value": "north"},
+            {"label": "East", "value": "east"},
+            {"label": "South", "value": "south"},
+            {"label": "West", "value": "west"}
+        ],
+        value="all"
+    ),
+    dcc.Graph(id="sales-chart")
 ])
+
+
+@app.callback(
+    Output("sales-chart", "figure"),
+    Input("region-filter", "value")
+)
+def update_chart(region):
+    if region == "all":
+        filtered = dash_df
+    else:
+        filtered = dash_df[dash_df["region"] == region]
+    
+    return {
+        "data": [
+            {
+                "x": filtered["date"],
+                "y": filtered["sales"],
+                "type": "line"
+            }
+        ],
+        "layout": {
+            "title": "Sales Over Time",
+            "xaxis": {"title": "Date"},
+            "yaxis": {"title": "Sales ($)"}
+        }
+    }
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
