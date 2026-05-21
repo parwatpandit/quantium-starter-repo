@@ -94,19 +94,28 @@ def update_chart(region):
         filtered = dash_df[dash_df["region"] == region]
     
     return {
-        "data": [
-            {
-                "x": filtered["date"],
-                "y": filtered["sales"],
-                "type": "line"
-            }
-        ],
-        "layout": {
-            "title": "Sales Over Time",
-            "xaxis": {"title": "Date"},
-            "yaxis": {"title": "Sales ($)"}
+    "data": [
+        {
+            "x": filtered["date"],
+            "y": filtered["sales"],
+            "type": "line",
+            "line": {
+                "color": "#f093fb",
+                "width": 3
+            },
+            "fill": "tozeroy",
+            "fillcolor": "rgba(240, 147, 251, 0.1)"
         }
+    ],
+    "layout": {
+        "title": {"text": "Sales Over Time", "font": {"color": "white", "size": 20}},
+        "xaxis": {"title": "Date", "color": "white", "gridcolor": "rgba(255,255,255,0.1)"},
+        "yaxis": {"title": "Sales ($)", "color": "white", "gridcolor": "rgba(255,255,255,0.1)"},
+        "paper_bgcolor": "rgba(0,0,0,0)",
+        "plot_bgcolor": "rgba(0,0,0,0)",
+        "font": {"color": "white"}
     }
+}
 
 if __name__ == "__main__":
     app.run(debug=True)
