@@ -18,7 +18,7 @@ h1 {
     font-size: 3rem;
     font-weight: 800;
     letter-spacing: 3px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     padding: 30px;
     margin-bottom: 30px;
     background: linear-gradient(90deg, #f093fb, #f5576c, #fda085, #f6d365);
